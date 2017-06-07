@@ -9,7 +9,7 @@ import { render } from 'react-dom';
 
 // relative path so webpack doesn't look in node_modules
 // the extension is assumed, don't need the .js at the end
-import App from './App';
+import App from './components/App';
 import StorePicker from './components/StorePicker.js';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -25,6 +25,7 @@ import './index.css';
 // this is JSX since it's kinda like our own tag
 // then the last thing is what DOM element it should render out to
 render(<App />, document.querySelector('#ohHello'));
-registerServiceWorker();
 
 render(<StorePicker/>, document.getElementById('root'));
+
+registerServiceWorker();
