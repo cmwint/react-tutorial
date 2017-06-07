@@ -12,7 +12,11 @@ import { render } from 'react-dom';
 import App from './App';
 import StorePicker from './components/StorePicker.js';
 import registerServiceWorker from './registerServiceWorker';
+
+// letting webpack compile everything and reload the page
+// webpack will also include the link tag to use this in index.html
 import './index.css';
+// you can also include style sheets for each of your components
 
 
 
