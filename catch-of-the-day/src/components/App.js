@@ -13,7 +13,13 @@ class App extends Component {
       <div className="catch-of-the-day">
           <div className="menu">
             {/* This will actually be a component called Header */}
-            <Header />
+            {/* tagline is like a variable, you can get this value now in the header component */}
+            {/* these are props!! */}
+            <Header tagline="Fresh Seafood Market" />
+
+            {/* prop types allows you to validate that data is passed and that data that is passed is the correct type (num, string, function) */}
+            {/* prop types help you to make really ridge components */}
+
           </div>
           {/* This will actually be a component called Order */}
           <Order />
