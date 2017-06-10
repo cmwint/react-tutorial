@@ -32,7 +32,7 @@ const Main = () => {
 			<Switch>
 				{/* When the the url exactly matches the home/main page */}
 				{/* show the store picker component */}
-				<Route exact path="/store" component={StorePicker} />
+				<Route exact path="/" component={StorePicker} />
 				<Route path="/store/:storeId" component={App} />
 				<Route component={NotFound} />
 			</Switch>
