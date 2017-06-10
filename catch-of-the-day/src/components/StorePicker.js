@@ -1,4 +1,5 @@
 import React from 'react';
+import { getFunName } from '../helpers';
 
 // creating first component, with ES6 classes
 // capitalize all components
@@ -26,7 +27,7 @@ class StorePicker extends React.Component{
           {/* But you can't return a comment at the top level */}
           {/* They can either go inside or below! */}
           <h2>Please Enter a Store</h2>
-          <input type="text" required placeholder="Store Name" />
+          <input type="text" required placeholder="Store Name" defaultValue={getFunName()} />
           <button type="submit">Visit Store ></button>
 
         </form>
