@@ -1,5 +1,6 @@
 import React from 'react';
 import { getFunName } from '../helpers';
+import PropTypes from 'prop-types';
 
 // creating first component, with ES6 classes
 // capitalize all components
@@ -25,9 +26,13 @@ class StorePicker extends React.Component{
       // how do we get data out of an input? with a red
       // reference the actual input
     // can't use this because it's npt explicity bound to the class, like the render funciton is
-    console.log(this.storeInput.value);
+    const storeId = this.storeInput.value;
+    console.log(`going to ${storeId}`);
 
     // then move the url from home page (/) to /store/:storeId
+    this.context.router.history.push(`/store/${storeId}`);
+    // using html5 push state!!
+
   }
   // every component that you build needs at least one method,
   // and that's the render method
@@ -82,6 +87,12 @@ class StorePicker extends React.Component{
           // so you can't do this ^^^^
       )
   }
+}
+
+// surfacing the router
+StorePicker.contextTypes = {
+  router: PropTypes.object
+  // new way of doing it from React.PropTypes.object since that is deprecated
 }
 
 export default StorePicker;
