@@ -7,7 +7,39 @@ import Header from './Header';
 import Order from './Order';
 import Inventory from './Inventory';
 
+
 class App extends Component {
+
+// using state, tie state to a parent (App) and use the same data with the child components
+// getting initial state and telling react about it
+  constructor() {
+    super(); // can not use "this" without calling super first because the react component needs to re initialized
+
+    this.addFish = this.addFish.bind(this);
+    this.state = {
+      // get initial state
+      fishes: {},
+      order: {},
+      // we have two empty objects in state that will hold the data
+    };
+  }
+  // method on the app
+  addFish(fish) {
+    // update the state - not so easy!
+      // when you want to update state, you need to first take a copy of the state
+    const fishes = {...this.state.fishes};
+      // ... the triple dots are a spreac
+      // the line above takes every item from the object and spread it into the new object
+      // it just takes a copy
+    // then add in new fish
+    const timestamp = Date.now();
+    fishes[`fish${timestamp}`] = fish;
+
+    // we have a new object of fishes, but now we need to set it to the actual state
+    // set state
+    this.setState({ fishes });
+  }
+
   render() {
     return (
       <div className="catch-of-the-day">
@@ -24,7 +56,7 @@ class App extends Component {
           {/* This will actually be a component called Order */}
           <Order />
           {/* This will actually be a component called Inventory */}
-          <Inventory />
+          <Inventory addFish={this.addFish}/>
       </div>
     );
   }

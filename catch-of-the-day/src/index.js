@@ -28,7 +28,12 @@ import './index.css';
 const Main = () => {
 	// stateless functional component
 	return(
+		// surface the router and make it available to this component with context in react
+		    // state holds your data and props pass data from a parent to a child component
+		    // context declares something at a top level
+		    // and it will be made available to everything at a lower level
 		<BrowserRouter>
+
 			<Switch>
 				{/* When the the url exactly matches
 					the home/main page
