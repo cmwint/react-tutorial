@@ -8,6 +8,7 @@ class Inventory extends Component{
 				<h2>Inventory</h2>
 				<AddFishForm addFish={this.props.addFish}/>
 				{/* the addFish method is available via props */}
+				<button onClick={this.props.loadSamples}>Load Sample Fishes</button>
 			</div>
 		)
 	}

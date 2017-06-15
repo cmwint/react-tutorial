@@ -6,6 +6,8 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Order from './Order';
 import Inventory from './Inventory';
+import Fish from './Fish';
+import sampleFishes from '../sample-fishes';
 
 
 class App extends Component {
@@ -16,6 +18,8 @@ class App extends Component {
     super(); // can not use "this" without calling super first because the react component needs to re initialized
 
     this.addFish = this.addFish.bind(this);
+    this.loadSamples = this.loadSamples.bind(this);
+
     this.state = {
       // get initial state
       fishes: {},
@@ -40,6 +44,14 @@ class App extends Component {
     this.setState({ fishes });
   }
 
+
+
+  loadSamples() {
+    this.setState({
+      fishes: sampleFishes
+    });
+  }
+
   render() {
     return (
       <div className="catch-of-the-day">
@@ -51,12 +63,22 @@ class App extends Component {
 
             {/* prop types allows you to validate that data is passed and that data that is passed is the correct type (num, string, function) */}
             {/* prop types help you to make really ridge components */}
-
+            <ul className="list-of-fishes">
+              {/* No logic or any kinds of loops in JSX, so just use JS */}
+              {/* curly brackets tell react we'll be doing javascript */}
+              {/* .map is for an array */}
+              {
+                Object
+                  .keys(this.state.fishes) // returns all of the property names from an object
+                  // then I can loop over that with .map
+                  .map(key => <Fish key={key} details={this.state.fishes[key] }/>) // the arrow function will return the fish component for each in the array
+              }
+            </ul>
           </div>
           {/* This will actually be a component called Order */}
           <Order />
           {/* This will actually be a component called Inventory */}
-          <Inventory addFish={this.addFish}/>
+          <Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
       </div>
     );
   }
