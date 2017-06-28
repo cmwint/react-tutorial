@@ -19,6 +19,7 @@ class App extends Component {
 
     this.addFish = this.addFish.bind(this);
     this.loadSamples = this.loadSamples.bind(this);
+    this.addToOrder = this.addToOrder.bind(this);
 
     this.state = {
       // get initial state
@@ -44,13 +45,22 @@ class App extends Component {
     this.setState({ fishes });
   }
 
-
-
   loadSamples() {
     this.setState({
       fishes: sampleFishes
     });
   }
+
+   addToOrder(key) {
+    // take a copy of state
+    const order = {...this.state.order}; //object spread
+    // update or add new number of fish ordered
+    order[key] = order[key] + 1 || 1;
+    // update state
+    this.setState({
+      order: order
+    })
+   }
 
   render() {
     return (
@@ -71,12 +81,13 @@ class App extends Component {
                 Object
                   .keys(this.state.fishes) // returns all of the property names from an object
                   // then I can loop over that with .map
-                  .map(key => <Fish key={key} details={this.state.fishes[key] }/>) // the arrow function will return the fish component for each in the array
+                  // index prop is for you, key prop is for react, you should never touch key
+                  .map(key => <Fish key={key} index={key} details={this.state.fishes[key] } addToOrder={this.addToOrder}/>) // the arrow function will return the fish component for each in the array
               }
             </ul>
           </div>
           {/* This will actually be a component called Order */}
-          <Order />
+          <Order fishes={this.state.fishes} order={this.state.order}/>
           {/* This will actually be a component called Inventory */}
           <Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
       </div>
