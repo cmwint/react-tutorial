@@ -2,19 +2,23 @@ import React, { Component } from 'react';
 import { formatPrice } from '../helpers.js'
 
 class Order extends Component{
+	constructor() {
+		super();
+		this.renderOrder = this.renderOrder.bind(this);
+	}
+
 	renderOrder(key) {
 		const fish = this.props.fishes[key];
 		const count = this.props.order[key];
 
 		if(!fish || fish.status === 'unavailable') {
-			return <li key={key}>Sorry, {fish ? fish.name : 'this fish'} is no longer available!</li>
+			return <li key={key}>Sorry, {fish ? fish.name : 'fish'} is no longer available!</li>
 		}
 
 		return(
 			<li key={key}>
 				<span>{count}lbs {fish.name}</span>
-				<span></span>
-				<span className="p"></span>
+				<span className="price">{formatPrice(count * fish.price)}</span>
 			</li>
 		)
 	}
