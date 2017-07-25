@@ -30,20 +30,41 @@ class App extends Component {
     };
   }
 
-  // react lifecycle hooks - 
+  // react lifecycle methods - 
   // entry points into a component where we can hook into and do various things
   componentWillMount() {
+    // this runs right before the app is rendered
     this.ref = base.syncState(`${this.props.match.params.storeId}/fishes`
       , {
       context: this,
       state: 'fishes'
-    })
+    });
+    // check if there is any order in localstorage
+    const localStorageRef = localStorage.getItem(`order-${this.props.match.params.storeId}`);
+    if(localStorageRef) {
+      // update app component/s order state
+      this.setState({
+        order: JSON.parse(localStorageRef)
+      });
+    }
   }
   // to make sure it's not racking up all these listeners behind the scene
   componentWillUnmount() {
     // after it's all loaded
     base.removeBinding(this.ref);
     // putting the sync state in the ref up above so we can remove it later
+  }
+
+  // runs everytime props or state is updated
+  // our order is state, and that is passed down via props
+  componentWillUpdate(nextProps, nextState) {
+    // passing in the updated props and updated state
+
+    // trick to name, pass in curly bracket object will name them
+    // console.log({nextProps, nextState});
+
+    // local storage is a key value pair, like an object. but you can't nest in there
+    localStorage.setItem(`order-${this.props.match.params.storeId}`, JSON.stringify(nextState.order))
   }
 
   // method on the app
@@ -105,7 +126,11 @@ class App extends Component {
             </ul>
           </div>
           {/* This will actually be a component called Order */}
-          <Order fishes={this.state.fishes} order={this.state.order}/>
+          <Order
+            fishes={this.state.fishes}
+            order={this.state.order}
+            params={this.props.match.params}
+          />
           {/* This will actually be a component called Inventory */}
           <Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
       </div>
