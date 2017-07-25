@@ -9,6 +9,7 @@ import Inventory from './Inventory';
 import Fish from './Fish';
 import sampleFishes from '../sample-fishes';
 
+import base from '../base';
 
 class App extends Component {
 
@@ -28,6 +29,23 @@ class App extends Component {
       // we have two empty objects in state that will hold the data
     };
   }
+
+  // react lifecycle hooks - 
+  // entry points into a component where we can hook into and do various things
+  componentWillMount() {
+    this.ref = base.syncState(`${this.props.match.params.storeId}/fishes`
+      , {
+      context: this,
+      state: 'fishes'
+    })
+  }
+  // to make sure it's not racking up all these listeners behind the scene
+  componentWillUnmount() {
+    // after it's all loaded
+    base.removeBinding(this.ref);
+    // putting the sync state in the ref up above so we can remove it later
+  }
+
   // method on the app
   addFish(fish) {
     // update the state - not so easy!
