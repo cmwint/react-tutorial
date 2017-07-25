@@ -19,6 +19,7 @@ class App extends Component {
     super(); // can not use "this" without calling super first because the react component needs to re initialized
 
     this.addFish = this.addFish.bind(this);
+    this.updateFish = this.updateFish.bind(this);
     this.loadSamples = this.loadSamples.bind(this);
     this.addToOrder = this.addToOrder.bind(this);
 
@@ -84,6 +85,12 @@ class App extends Component {
     this.setState({ fishes });
   }
 
+  updateFish(key, updatedFish) {
+    const fishes = {...this.state.fishes};
+    fishes[key] = updatedFish;
+    this.setState({ fishes });
+  }
+
   loadSamples() {
     this.setState({
       fishes: sampleFishes
@@ -132,7 +139,12 @@ class App extends Component {
             params={this.props.match.params}
           />
           {/* This will actually be a component called Inventory */}
-          <Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
+          <Inventory
+            addFish={this.addFish}
+            loadSamples={this.loadSamples}
+            fishes={this.state.fishes}
+            updateFish={this.updateFish}
+          />
       </div>
     );
   }
