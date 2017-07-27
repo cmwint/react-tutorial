@@ -20,8 +20,10 @@ class App extends Component {
 
     this.addFish = this.addFish.bind(this);
     this.updateFish = this.updateFish.bind(this);
+    this.removeFish = this.removeFish.bind(this);
     this.loadSamples = this.loadSamples.bind(this);
     this.addToOrder = this.addToOrder.bind(this);
+    this.removeFromOrder = this.removeFromOrder.bind(this);
 
     this.state = {
       // get initial state
@@ -91,6 +93,12 @@ class App extends Component {
     this.setState({ fishes });
   }
 
+  removeFish(key) {
+    const fishes = {...this.state.fishes};
+    fishes[key] = null;
+    this.setState({fishes});
+  }
+
   loadSamples() {
     this.setState({
       fishes: sampleFishes
@@ -106,6 +114,12 @@ class App extends Component {
     this.setState({
       order: order
     })
+   }
+
+   removeFromOrder(key) {
+    const order = {...this.state.order};
+    delete order[key];
+    this.setState({ order });
    }
 
   render() {
@@ -137,10 +151,12 @@ class App extends Component {
             fishes={this.state.fishes}
             order={this.state.order}
             params={this.props.match.params}
+            removeFromOrder={this.removeFromOrder}
           />
           {/* This will actually be a component called Inventory */}
           <Inventory
             addFish={this.addFish}
+            removeFish={this.removeFish}
             loadSamples={this.loadSamples}
             fishes={this.state.fishes}
             updateFish={this.updateFish}
