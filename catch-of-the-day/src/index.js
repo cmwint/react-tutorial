@@ -19,7 +19,7 @@ import NotFound from './components/NotFound.js';
 
 // letting webpack compile everything and reload the page
 // webpack will also include the link tag to use this in index.html
-import './index.css';
+import './css/style.css';
 // you can also include style sheets for each of your components
 
 
