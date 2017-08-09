@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { formatPrice } from '../helpers.js'
+import { formatPrice } from '../helpers.js';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 class Order extends Component{
 	constructor() {
@@ -18,7 +19,23 @@ class Order extends Component{
 
 		return(
 			<li key={key}>
-				<span>{count}lbs {fish.name} {removeButton}</span>
+				<span>
+					<CSSTransitionGroup
+						component="span"
+						className="count"
+						transitionName="count"
+						transitionEnterTimeout={10000}
+						transitionLeaveTimeout={10000}
+					>
+						{/* every time you have a key */}
+						{/* of two elements that are beside each other */}
+						{/* they need to have a unique key */}
+						<span key={count}>
+							{count}
+						</span>
+					</CSSTransitionGroup>
+					lbs {fish.name} {removeButton}
+				</span>
 				<span className="price">{formatPrice(count * fish.price)}</span>
 			</li>
 		)
@@ -41,13 +58,22 @@ class Order extends Component{
 		return(
 			<div className="order-wrap">
 				<h2>Your Order</h2>
-				<ul className="Order">
+
+				<CSSTransitionGroup
+					className="order"
+					component="ul" // still going to kick out an unordered list
+					transitionName="order"
+					transitionEnterTimeout={500}
+					transitionLeaveTimeout={500}
+					// this is creating class on enter and leave that we can hook into with styles
+				>
 					{orderIds.map(this.renderOrder)}
 					<li className="total">
 						<strong>Total:</strong>
 						{formatPrice(total)}
 					</li>
-				</ul>
+				</CSSTransitionGroup>
+
 			</div>
 		)
 	}
