@@ -8,6 +8,7 @@ import Order from './Order';
 import Inventory from './Inventory';
 import Fish from './Fish';
 import sampleFishes from '../sample-fishes';
+import PropTypes from 'prop-types';
 
 import base from '../base';
 
@@ -164,6 +165,10 @@ class App extends Component {
       </div>
     );
   }
+}
+
+App.propTypes = {
+  params: PropTypes.object
 }
 
 // allows us to import this component into the index.js file on line

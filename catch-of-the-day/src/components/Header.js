@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // if you're just using the component to render html,
 // just use a "stateless functional component"
@@ -42,6 +43,11 @@ const Header = (props) => {
 		</header>
 	)
 
+}
+
+
+Header.propTypes = {
+	tagline: PropTypes.string.isRequired
 }
 
 export default Header;
