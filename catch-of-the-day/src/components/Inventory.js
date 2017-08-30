@@ -39,24 +39,35 @@ class Inventory extends Component{
 		// base.authWithOAuthPopup(provider, this.authHandler);
 
 		var providerAuth;
-		if(provider === 'facebook') {
-			providerAuth = facebookProvider;
-		}else if(provider === 'github') {
-			providerAuth = githubProvider;
-		}else if(provider === 'twitter') {
-			providerAuth = twitterProvider;
+		// if(provider === 'facebook') {
+		// 	providerAuth = facebookProvider;
+		// }else if(provider === 'github') {
+		// 	providerAuth = githubProvider;
+		// }else if(provider === 'twitter') {
+		// 	providerAuth = twitterProvider;
+		// }
+
+
+		switch (provider) {
+		    case 'facebook':
+				providerAuth = facebookProvider;
+		        break;
+		    case 'github':
+				providerAuth = githubProvider;
+		        break;
+		    case 'twitter':
+				providerAuth = twitterProvider;
+		        break;
 		}
+
 
 		// var auth = base.auth();
 
 		// var provider = new base.auth.TwitterAuthProvider();
 		auth.signInWithPopup(providerAuth) 
 		    .then((result) => {
-		      const user = result.user;
-		      this.setState({
-		        user
-		      });
-		    });
+				const user = result.user;
+			});
 	}
 	authHandler(err, authData) {
 		console.log(authData);
