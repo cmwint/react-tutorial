@@ -35,19 +35,7 @@ class Inventory extends Component{
 	}
 
 	authenticate(provider) {
-		//console.log(`Trying to log in with ${provider}`);
-		// base.authWithOAuthPopup(provider, this.authHandler);
-
 		var providerAuth;
-		// if(provider === 'facebook') {
-		// 	providerAuth = facebookProvider;
-		// }else if(provider === 'github') {
-		// 	providerAuth = githubProvider;
-		// }else if(provider === 'twitter') {
-		// 	providerAuth = twitterProvider;
-		// }
-
-
 		switch (provider) {
 		    case 'facebook':
 				providerAuth = facebookProvider;
@@ -60,10 +48,6 @@ class Inventory extends Component{
 		        break;
 		}
 
-
-		// var auth = base.auth();
-
-		// var provider = new base.auth.TwitterAuthProvider();
 		auth.signInWithPopup(providerAuth) 
 		    .then((result) => {
 				const user = result.user;
