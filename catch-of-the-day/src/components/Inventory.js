@@ -11,6 +11,7 @@ class Inventory extends Component{
 		this.renderLogin = this.renderLogin.bind(this);
 		this.authenticate = this.authenticate.bind(this);
 		this.authHandler = this.authHandler.bind(this);
+		this.logOut = this.logOut.bind(this);
 		this.state = {
 			uid: null,
 			owner: null
@@ -25,7 +26,7 @@ class Inventory extends Component{
 				const storeRef = app.database().ref(this.props.storeId);
 				storeRef.once('value', (snapshot) => {
 					const data = snapshot.val() || {};
-					this.authenticate(data.provider)
+					this.authenticate(data.provider);
 				})
 			}
 		});
@@ -62,6 +63,11 @@ class Inventory extends Component{
 		        break;
 		}
 		this.authHandler(providerAuth, provider);
+	}
+
+	logOut() {
+		app.auth().signOut();
+		this.setState({ uid: null });
 	}
 	
 	authHandler(providerAuth, provider) {
@@ -102,7 +108,7 @@ class Inventory extends Component{
 		return (
 			<nav className="login">
 				<h2>Inventory</h2>
-				<p>Sign in to mnage your store's inventory</p>
+				<p>Sign in to manage your store's inventory</p>
 				<button className="github" onClick={() => this.authenticate('github')}>Log In with Github</button>
 				<button className="facebook" onClick={() => this.authenticate('facebook')}>Log In with Facebook</button>
 				<button className="twitter" onClick={() => this.authenticate('twitter')}>Log In with Twitter</button>
@@ -129,7 +135,7 @@ class Inventory extends Component{
 		)
 	}
 	render(){
-		const logout = <button>Log out!</button>
+		const logout = <button onClick={this.logOut}>Log out!</button>
 
 		// check if no one is logged in
 		if(!this.state.uid) {
