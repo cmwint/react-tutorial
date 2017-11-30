@@ -10,10 +10,25 @@ class Inventory extends Component{
 		this.handleChange = this.handleChange.bind(this);
 		this.renderLogin = this.renderLogin.bind(this);
 		this.authenticate = this.authenticate.bind(this);
+		this.authHandler = this.authHandler.bind(this);
 		this.state = {
 			uid: null,
 			owner: null
 		}
+	}
+
+	componentDidMount () {
+		// listen for when we load the page,
+		// firebase is going to try and authenticate me again
+		app.auth().onAuthStateChanged((user) => {
+			if(user) {
+				const storeRef = app.database().ref(this.props.storeId);
+				storeRef.once('value', (snapshot) => {
+					const data = snapshot.val() || {};
+					this.authenticate(data.provider)
+				})
+			}
+		});
 	}
 
 	// if i use this in a method that I make up, I need to bind it to the actual component itself
@@ -46,23 +61,26 @@ class Inventory extends Component{
 				providerAuth = twitterProvider;
 		        break;
 		}
+		this.authHandler(providerAuth, provider);
+	}
+	
+	authHandler(providerAuth, provider) {
 
 		auth.signInWithPopup(providerAuth) 
-		    .then((result) => {
+			.then((result) => {
 				const user = result.user;
-				// console.log(user);
 				// grab the store info from firebase
 				// connect with the firebase database and we can use the firebase api on it
 				// ref grabs just a piece of the database
 				const storeRef = app.database().ref(this.props.storeId);
 				// query the firebase once for the store data
-				console.log(user.uid);
 				storeRef.once('value', (snapshot) => {
 					const data = snapshot.val() || {};
-					// claim it as our own (if noe user already)
+					// claim it as our own (if no user already)
 					if(!data.owner) {
 						storeRef.set({
-							owner: user.uid
+							owner: user.uid,
+							provider: provider
 						});
 					}
 					//and then update state
@@ -71,12 +89,13 @@ class Inventory extends Component{
 						owner: data.owner || user.uid
 					});
 				})
-
+	
 			// if there are errors
 			}).catch(function(error) {
 				// console error
 				console.log(error);
 			});
+
 	}
 
 	renderLogin() {
