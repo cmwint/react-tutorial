@@ -5,7 +5,7 @@ const firebase = require('firebase/app');
 require('firebase/auth');
 require('firebase/database');
 
-const app = firebase.initializeApp({
+export const app = firebase.initializeApp({
 	apiKey: "AIzaSyDt5MaZVeqyujiVUD8Y3Etckgg77t3yP0k",
     authDomain: "catch-of-the-day-corinne.firebaseapp.com",
     databaseURL: "https://catch-of-the-day-corinne.firebaseio.com",

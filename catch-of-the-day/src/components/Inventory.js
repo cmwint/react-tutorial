@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AddFishForm from './AddFishForm';
 import PropTypes from 'prop-types';
-import base, { auth, githubProvider, facebookProvider, twitterProvider } from '../base';
+import base, { app, auth, githubProvider, facebookProvider, twitterProvider } from '../base';
 
 class Inventory extends Component{
 	constructor() {
@@ -10,7 +10,6 @@ class Inventory extends Component{
 		this.handleChange = this.handleChange.bind(this);
 		this.renderLogin = this.renderLogin.bind(this);
 		this.authenticate = this.authenticate.bind(this);
-		this.authHandler = this.authHandler.bind(this);
 		this.state = {
 			uid: null,
 			owner: null
@@ -51,10 +50,33 @@ class Inventory extends Component{
 		auth.signInWithPopup(providerAuth) 
 		    .then((result) => {
 				const user = result.user;
+				// console.log(user);
+				// grab the store info from firebase
+				// connect with the firebase database and we can use the firebase api on it
+				// ref grabs just a piece of the database
+				const storeRef = app.database().ref(this.props.storeId);
+				// query the firebase once for the store data
+				console.log(user.uid);
+				storeRef.once('value', (snapshot) => {
+					const data = snapshot.val() || {};
+					// claim it as our own (if noe user already)
+					if(!data.owner) {
+						storeRef.set({
+							owner: user.uid
+						});
+					}
+					//and then update state
+					this.setState({
+						uid: user.uid,
+						owner: data.owner || user.uid
+					});
+				})
+
+			// if there are errors
+			}).catch(function(error) {
+				// console error
+				console.log(error);
 			});
-	}
-	authHandler(err, authData) {
-		console.log(authData);
 	}
 
 	renderLogin() {
@@ -123,7 +145,8 @@ Inventory.propTypes = {
 	updateFish: PropTypes.func.isRequired,
 	removeFish: PropTypes.func.isRequired,
 	addFish: PropTypes.func.isRequired,
-	loadSamples: PropTypes.func.isRequired
+	loadSamples: PropTypes.func.isRequired,
+	storeId: PropTypes.string.isRequired
 }
 
 export default Inventory;
